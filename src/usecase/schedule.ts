@@ -13,6 +13,6 @@ export function scheduleNote(request: ScheduleNoteRequest) {
         const scheduledNote = {
             note: request.note
         };
-        request.storage.save(scheduledNote);
+        request.storage.saveScheduledNote(scheduledNote);
     }
 }

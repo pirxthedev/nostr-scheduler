@@ -15,7 +15,7 @@ class NostrInterfaceMock extends NostrInterface {
 }
 
 class StorageInterfaceMock extends StorageInterface {
-    save(scheduledNote: ScheduledNote): void {
+    saveScheduledNote(scheduledNote: ScheduledNote): void {
         return;
     }
 }
@@ -42,12 +42,12 @@ describe('Use Case: Schedule Note', () => {
         expect(spy).toHaveBeenCalled();
     });
     it('should save a valid note', () => {
-        const spy = vi.spyOn(request.storage, 'save');
+        const spy = vi.spyOn(request.storage, 'saveScheduledNote');
         scheduleNote(validNoteRequest);
         expect(spy).toHaveBeenCalled();
     });
     it('should not save an invalid note', () => {
-        const spy = vi.spyOn(request.storage, 'save');
+        const spy = vi.spyOn(request.storage, 'saveScheduledNote');
         scheduleNote(invalidNoteRequest);
         expect(spy).not.toHaveBeenCalled();
     });
