@@ -3,6 +3,7 @@ import { NostrInterface } from '../interface/nostr';
 import { StorageInterface } from '../interface/storage';
 import { Note } from '../entity/note';
 import { ScheduledNote } from '../entity/schedulednote';
+import { getNostrTimestamp } from '../utils';
 import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
 
 class NostrInterfaceMock extends NostrInterface {
@@ -25,14 +26,31 @@ const request = {
     storage: new StorageInterfaceMock()
 };
 
+const futureDate = getNostrTimestamp(Date.now()) + 60*60*24;
+const pastDate = getNostrTimestamp(Date.now()) - 60*60*24;
+
 const validNoteRequest = {
     ...request,
-    note: {content: 'valid'}
+    note: {
+        content: 'valid',
+        created_at: futureDate
+    },
 };
 
 const invalidNoteRequest = {
     ...request,
-    note: {content: 'invalid'}
+    note: {
+        content: 'invalid',
+        created_at: futureDate
+    },
+};
+
+const pastNoteRequest = {
+    ...request,
+    note: {
+        content: 'valid',
+        created_at: pastDate
+    },
 };
 
 describe('Use Case: Schedule Note', () => {
@@ -49,6 +67,11 @@ describe('Use Case: Schedule Note', () => {
     it('should not save an invalid note', () => {
         const spy = vi.spyOn(request.storage, 'saveScheduledNote');
         scheduleNote(invalidNoteRequest);
+        expect(spy).not.toHaveBeenCalled();
+    });
+    it('should not save a note with a past date', () => {
+        const spy = vi.spyOn(request.storage, 'saveScheduledNote');
+        scheduleNote(pastNoteRequest);
         expect(spy).not.toHaveBeenCalled();
     });
 });
