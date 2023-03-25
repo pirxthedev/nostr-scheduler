@@ -1,5 +1,5 @@
-
+import { Note } from "../entity/note";
 
 export abstract class NostrInterface {
-    abstract validateNote(note: string): boolean;
+    abstract validateNote(note: Note): boolean;
 }

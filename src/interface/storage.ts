@@ -1,5 +1,5 @@
-
+import { ScheduledNote } from "../entity/schedulednote";
 
 export abstract class StorageInterface {
-    abstract save(note: string): void;
+    abstract save(scheduledNote: ScheduledNote): void;
 }
