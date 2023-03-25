@@ -18,29 +18,35 @@ class StorageInterfaceMock extends StorageInterface {
     }
 }
 
-const interfaces = {
+const request = {
     nostr: new NostrInterfaceMock(),
     storage: new StorageInterfaceMock()
 };
 
-describe('Note scheduler', () => {
-    it('should exist', () => {
-        expect(scheduleNote).toBeDefined();
-    });
-    it('should check if a valid note is provided', () => {
+const validNoteRequest = {
+    ...request,
+    note: 'valid'
+};
 
-        const spy = vi.spyOn(interfaces.nostr, 'validateNote');
-        scheduleNote('valid', interfaces);
+const invalidNoteRequest = {
+    ...request,
+    note: 'invalid'
+};
+
+describe('Use Case: Schedule Note', () => {
+    it('should check if a valid note is provided', () => {
+        const spy = vi.spyOn(request.nostr, 'validateNote');
+        scheduleNote(validNoteRequest);
         expect(spy).toHaveBeenCalled();
     });
     it('should save a valid note', () => {
-        const spy = vi.spyOn(interfaces.storage, 'save');
-        scheduleNote('valid', interfaces);
+        const spy = vi.spyOn(request.storage, 'save');
+        scheduleNote(validNoteRequest);
         expect(spy).toHaveBeenCalled();
     });
     it('should not save an invalid note', () => {
-        const spy = vi.spyOn(interfaces.storage, 'save');
-        scheduleNote('invalid', interfaces);
+        const spy = vi.spyOn(request.storage, 'save');
+        scheduleNote(invalidNoteRequest);
         expect(spy).not.toHaveBeenCalled();
     });
 });

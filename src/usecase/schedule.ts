@@ -1,13 +1,14 @@
 import { NostrInterface } from "../interface/nostr";
 import { StorageInterface } from "../interface/storage";
 
-export interface Interfaces {
+export interface ScheduleNoteRequest {
+    note: string;
     nostr: NostrInterface;
     storage: StorageInterface;
 }
 
-export function scheduleNote(note: string, interfaces: Interfaces) {
-    if (interfaces.nostr.validateNote(note)) {
-        interfaces.storage.save(note);
+export function scheduleNote(request: ScheduleNoteRequest) {
+    if (request.nostr.validateNote(request.note)) {
+        request.storage.save(request.note);
     }
 }
