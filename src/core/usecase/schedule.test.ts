@@ -74,4 +74,16 @@ describe('Use Case: Schedule Note', () => {
         scheduleNote(pastNoteRequest);
         expect(spy).not.toHaveBeenCalled();
     });
+    it('should return a success status if a note is saved', () => {
+        const response = scheduleNote(validNoteRequest);
+        expect(response.status).toBe('OK');
+    });
+    it('should return an error status if a note is not saved', () => {
+        const response = scheduleNote(invalidNoteRequest);
+        expect(response.status).toBe('ERROR');
+    });
+    it('should return an error message if a note is not saved', () => {
+        const response = scheduleNote(invalidNoteRequest);
+        expect(response.message).toBe('Note is invalid or in the past');
+    });
 });
