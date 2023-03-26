@@ -6,7 +6,7 @@ import { ScheduledNote } from '../entity/schedulednote';
 import { getNostrTimestamp } from '../utils';
 import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
 
-class NostrInterfaceMock extends NostrInterface {
+class MockNostr extends NostrInterface {
     validateNote(note: Note): boolean {
         if (note.content === 'invalid') {
             return false;
@@ -15,15 +15,15 @@ class NostrInterfaceMock extends NostrInterface {
     }
 }
 
-class StorageInterfaceMock extends StorageInterface {
+class MockStorage extends StorageInterface {
     saveScheduledNote(scheduledNote: ScheduledNote): void {
         return;
     }
 }
 
 const request = {
-    nostr: new NostrInterfaceMock(),
-    storage: new StorageInterfaceMock()
+    nostr: new MockNostr(),
+    storage: new MockStorage()
 };
 
 const futureDate = getNostrTimestamp(Date.now()) + 60*60*24;

@@ -7,19 +7,15 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
+import { scheduleNote } from "../core/usecase/schedule";
+import { Note } from "../core/entity/note";
+import { CloudflareD1Storage } from "./storage";
+import { NostrTools } from "../nostr";
+import { getNostrTimestamp } from "../core/utils";
+
 
 export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket;
-	//
-	// Example binding to a Service. Learn more at https://developers.cloudflare.com/workers/runtime-apis/service-bindings/
-	// MY_SERVICE: Fetcher;
+	DB: D1Database;
 }
 
 export default {
@@ -28,6 +24,21 @@ export default {
 		env: Env,
 		ctx: ExecutionContext
 	): Promise<Response> {
-		return new Response("Hello World!");
+		const storage = new CloudflareD1Storage(env.DB);
+		const nostr = new NostrTools();
+		const note = getNoteFromRequest(request);
+		const response = scheduleNote({
+			note,
+			storage,
+			nostr
+		});
+		return new Response(response.status);
 	},
 };
+
+function getNoteFromRequest(request: Request): Note {
+	return {
+		created_at: getNostrTimestamp(Date.now()) + 60*60*24,
+		content: "Hello World!",
+	};
+}
