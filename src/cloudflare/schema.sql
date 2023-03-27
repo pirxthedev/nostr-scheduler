@@ -1,2 +1,2 @@
 DROP TABLE IF EXISTS ScheduledNotes;
-CREATE TABLE ScheduledNotes (note TEXT);
+CREATE TABLE ScheduledNotes (note TEXT, created_at DATETIME, id INTEGER PRIMARY KEY AUTOINCREMENT);

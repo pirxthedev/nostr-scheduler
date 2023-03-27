@@ -12,9 +12,9 @@ export class CloudflareD1Storage extends StorageInterface {
 
     saveScheduledNote(scheduledNote: ScheduledNote): Promise<D1Result> {
         const results = this.db.prepare(
-            "INSERT INTO ScheduledNotes (note) VALUES (?)"
+            "INSERT INTO ScheduledNotes (note, created_at) VALUES (?, ?)"
         ).bind(
-            JSON.stringify(scheduledNote.note)
+            JSON.stringify(scheduledNote.note), scheduledNote.note.created_at
         ).run();
         return results;
     }
