@@ -24,6 +24,7 @@ export default {
 		env: Env,
 		ctx: ExecutionContext
 	): Promise<Response> {
+		// TODO: Add separate routes for scheduling and sending notes
 		const storage = new CloudflareD1Storage(env.DB);
 		const nostr = new MockNostr();
 		const note = getNoteFromRequest(request);
