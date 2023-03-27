@@ -10,7 +10,7 @@
 import { scheduleNote } from "../core/usecase/schedule";
 import { Note } from "../core/entity/note";
 import { CloudflareD1Storage } from "./storage";
-import { NostrTools } from "../nostr";
+import { MockNostr } from "../core/mocks";
 import { getNostrTimestamp } from "../core/utils";
 
 
@@ -25,7 +25,7 @@ export default {
 		ctx: ExecutionContext
 	): Promise<Response> {
 		const storage = new CloudflareD1Storage(env.DB);
-		const nostr = new NostrTools();
+		const nostr = new MockNostr();
 		const note = getNoteFromRequest(request);
 		const response = scheduleNote({
 			note,

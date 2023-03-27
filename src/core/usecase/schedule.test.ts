@@ -1,29 +1,13 @@
-import { scheduleNote } from './schedule';
-import { NostrInterface } from '../interface/nostr';
-import { StorageInterface } from '../interface/storage';
-import { Note } from '../entity/note';
-import { ScheduledNote } from '../entity/schedulednote';
-import { getNostrTimestamp } from '../utils';
 import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
+import { scheduleNote } from './schedule';
+import { getNostrTimestamp } from '../utils';
+import { MockStorage } from '../mocks';
+import { MockNostr } from '../mocks';
 
-class MockNostr extends NostrInterface {
-    validateNote(note: Note): boolean {
-        if (note.content === 'invalid') {
-            return false;
-        }
-        return true;
-    }
-}
-
-class MockStorage extends StorageInterface {
-    saveScheduledNote(scheduledNote: ScheduledNote): void {
-        return;
-    }
-}
 
 const request = {
     nostr: new MockNostr(),
-    storage: new MockStorage()
+    storage: new MockStorage([])
 };
 
 const futureDate = getNostrTimestamp(Date.now()) + 60*60*24;
