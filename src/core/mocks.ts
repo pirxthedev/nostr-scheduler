@@ -11,7 +11,8 @@ export class MockNostr extends NostrInterface {
         }
         return true;
     }
-    sendNote(): void {
+    sendNote(note: Note): void {
+        console.log('Sending note: ' + JSON.stringify(note))
         return;
     }
 }
