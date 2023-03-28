@@ -25,6 +25,11 @@ export class MockStorage extends StorageInterface {
         this.notesToSend = notesToSend;
     }
     saveScheduledNote(scheduledNote: ScheduledNote): void {
+        this.notesToSend.push(scheduledNote);
+        return;
+    }
+    markScheduledNoteAsSent(scheduledNote: ScheduledNote): void {
+        this.notesToSend = this.notesToSend.filter((n) => n.note !== scheduledNote.note);
         return;
     }
     getCurrentScheduledNotes(): Promise<Array<ScheduledNote>> {

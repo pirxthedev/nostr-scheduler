@@ -44,4 +44,11 @@ describe('Use Case: Send Scheduled Notes', () => {
         expect(spy).toHaveBeenCalledTimes(2);
         expect(spy).toHaveBeenCalledWith(validScheduledNote.note);
     });
+    it('should mark notes as sent if they are sent', async () => {
+        const storage = new MockStorage([validScheduledNote]);
+        const spy = vi.spyOn(storage, 'markScheduledNoteAsSent');
+        await sendScheduledNotes(storage, nostr);
+        expect(spy).toHaveBeenCalledOnce();
+        expect(spy).toHaveBeenCalledWith(validScheduledNote);
+    });
 });

@@ -6,6 +6,7 @@ export async function sendScheduledNotes(storage: StorageInterface, nostr: Nostr
     const notesToSend = await storage.getCurrentScheduledNotes();
     for (const note of notesToSend) {
         nostr.sendNote(note.note);
+        storage.markScheduledNoteAsSent(note);
     }
     return
 }
