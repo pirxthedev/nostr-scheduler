@@ -37,6 +37,6 @@ app.listen(1234, () => {
 });
 
 cron.schedule('* * * * *', () => {
-    console.log('Running a task every minute');
+    console.log('Checking for scheduled notes to send...');
     const response = sendScheduledNotes(storage, nostr);
 });
