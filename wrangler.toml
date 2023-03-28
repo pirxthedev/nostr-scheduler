@@ -1,8 +1,0 @@
-name = "nostr-scheduler"
-main = "src/cloudflare/index.ts"
-compatibility_date = "2023-03-25"
-
-[[ d1_databases ]]
-binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "nostr-scheduler"
-database_id = "c1db8eac-8c72-4cf7-958c-98a0dc25e14c"
