@@ -1,10 +1,10 @@
-import { NostrInterface } from "./interface/nostr";
+import { NostrClientInterface } from "./interface/nostr";
 import { StorageInterface } from './interface/storage';
 import { Note } from "./entity/note";
 import { ScheduledNote } from './entity/schedulednote';
 
 
-export class MockNostr extends NostrInterface {
+export class MockNostrClient extends NostrClientInterface {
     validateNote(note: Note): boolean {
         if (note.content === 'invalid') {
             return false;

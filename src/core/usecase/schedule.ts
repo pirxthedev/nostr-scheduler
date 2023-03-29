@@ -1,11 +1,11 @@
-import { NostrInterface } from "../interface/nostr";
+import { NostrClientInterface } from "../interface/nostr";
 import { StorageInterface } from "../interface/storage";
 import { Note } from "../entity/note";
 import { getNostrTimestamp } from "../utils";
 
 export interface ScheduleNoteRequest {
     note: Note;
-    nostr: NostrInterface;
+    nostr: NostrClientInterface;
     storage: StorageInterface;
 }
 

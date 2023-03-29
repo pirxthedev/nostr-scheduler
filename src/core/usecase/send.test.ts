@@ -1,10 +1,10 @@
 import { describe, it, vi, expect } from 'vitest';
 import { sendScheduledNotes } from './send';
-import { MockNostr } from '../mocks';
+import { MockNostrClient } from '../mocks';
 import { MockStorage } from '../mocks';
 
 
-const nostr = new MockNostr(['relay']);
+const nostr = new MockNostrClient(['relay']);
 
 const validScheduledNote = {
     note: {

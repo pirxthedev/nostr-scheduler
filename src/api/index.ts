@@ -1,7 +1,7 @@
 import express from 'express';
 import { scheduleNote } from '../core/usecase/schedule';
 import { sendScheduledNotes } from '../core/usecase/send';
-import { MockNostr } from '../core/mocks';
+import { MockNostrClient } from '../core/mocks';
 import { MockStorage } from '../core/mocks';
 import { getNostrTimestamp } from '../core/utils';
 
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-const nostr = new MockNostr(['relay'])
+const nostr = new MockNostrClient(['relay'])
 const storage = new MockStorage([
     {
         note: {

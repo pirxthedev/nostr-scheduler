@@ -6,9 +6,9 @@ import {
     Relay
 } from "nostr-tools";
 require('websocket-polyfill')
-import { NostrTools } from './nostr';
+import { NostrClient } from './nostr';
 
-const nostr = new NostrTools(["relay1", "relay2"]);
+const nostr = new NostrClient(["relay1", "relay2"]);
 
 const publishSpy = vi.fn();
 const closeSpy = vi.fn();

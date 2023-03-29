@@ -5,9 +5,9 @@ import {
 } from "nostr-tools";
 import { Relay } from "nostr-tools";
 
-import { NostrInterface } from "../core/interface/nostr";
+import { NostrClientInterface } from "../core/interface/nostr";
 
-export class NostrTools extends NostrInterface {
+export class NostrClient extends NostrClientInterface {
     validateNote(note: any): boolean {
         const isValid = validateEvent(note);
         const isSigned = verifySignature(note);

@@ -1,6 +1,6 @@
 import { Note } from "../entity/note";
 
-export abstract class NostrInterface {
+export abstract class NostrClientInterface {
     relays: Array<string>;
     constructor(relays: Array<string>) {
         this.relays = relays;

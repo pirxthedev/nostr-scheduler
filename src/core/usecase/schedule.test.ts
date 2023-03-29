@@ -2,11 +2,11 @@ import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
 import { scheduleNote } from './schedule';
 import { getNostrTimestamp } from '../utils';
 import { MockStorage } from '../mocks';
-import { MockNostr } from '../mocks';
+import { MockNostrClient } from '../mocks';
 
 
 const request = {
-    nostr: new MockNostr(['relay']),
+    nostr: new MockNostrClient(['relay']),
     storage: new MockStorage([])
 };
 
