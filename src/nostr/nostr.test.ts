@@ -8,7 +8,7 @@ import {
 require('websocket-polyfill')
 import { NostrTools } from './nostr';
 
-const nostr = new NostrTools(["relay"]);
+const nostr = new NostrTools(["relay1", "relay2"]);
 
 const publishSpy = vi.fn();
 const closeSpy = vi.fn();
@@ -46,12 +46,13 @@ describe('Nostr note validation', () => {
 });
 
 describe('Nostr note sending', () => {
-    it('Should connect to the provided relay', () => {
+    it('Should connect to the provided relays', async () => {
         const spy = vi.spyOn(nostr, 'connectToRelay')
         const note = { content: "hello nostr" };
-        nostr.sendNote(note);
+        await nostr.sendNote(note);
         expect(spy).toHaveBeenCalled();
-        expect(spy).toHaveBeenCalledWith("relay");
+        expect(spy).toHaveBeenNthCalledWith(1, "relay1");
+        expect(spy).toHaveBeenNthCalledWith(2, "relay2");
     });
     it('should call nostr-tools relayInit', async () => {
         const relayConnection = await nostr.connectToRelay("relay");
