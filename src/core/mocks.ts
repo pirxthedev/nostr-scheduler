@@ -4,7 +4,7 @@ import { Note } from "./entity/note";
 import { ScheduledNote } from './entity/schedulednote';
 
 
-export class MockNostr extends NostrInterface {
+export class MockNostr implements NostrInterface {
     validateNote(note: Note): boolean {
         if (note.content === 'invalid') {
             return false;
@@ -18,10 +18,9 @@ export class MockNostr extends NostrInterface {
 }
 
 
-export class MockStorage extends StorageInterface {
+export class MockStorage implements StorageInterface {
     notesToSend: Array<ScheduledNote>;
     constructor(notesToSend: Array<ScheduledNote>) {
-        super();
         this.notesToSend = notesToSend;
     }
     saveScheduledNote(scheduledNote: ScheduledNote): void {

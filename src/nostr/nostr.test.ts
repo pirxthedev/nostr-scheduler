@@ -2,31 +2,74 @@ import { describe, expect, it, beforeAll, afterAll, vi } from "vitest";
 import {
     validateEvent,
     verifySignature,
+    relayInit,
+    Relay
 } from "nostr-tools";
+require('websocket-polyfill')
 import { NostrTools } from './nostr';
 
 const nostr = new NostrTools();
 
-vi.mock('nostr-tools', () => {
-    const validateEvent = vi.fn()
-    const verifySignature = vi.fn()
+const publishSpy = vi.fn();
+const closeSpy = vi.fn();
 
-    return { validateEvent, verifySignature }
+vi.mock('nostr-tools', async () => {
+    const mod = await vi.importActual<typeof import('nostr-tools')>('nostr-tools')
+
+    return {
+        ...mod,
+        validateEvent: vi.fn(),
+        verifySignature: vi.fn(),
+        relayInit: vi.fn(() => ({
+            connect: vi.fn(),
+            publish: publishSpy,
+            close: closeSpy
+        })),
+    }
 })
 
 describe('Nostr note validation', () => {
 
     it('Should run nostr-tools validation on provided note', () => {
         const note = { content: "hello nostr" };
-        nostr.validateNoteContent(note);
+        nostr.validateNote(note);
         expect(validateEvent).toHaveBeenCalled();
         expect(validateEvent).toHaveBeenCalledWith(note);
     });
     it('Should run nostr-tools signature validation on provided note', () => {
         const note = { content: "hello nostr", sig: "signature" };
-        nostr.validateNoteContent(note);
+        nostr.validateNote(note);
         expect(verifySignature).toHaveBeenCalled();
         expect(verifySignature).toHaveBeenCalledWith(note);
     });
 
+});
+
+describe('Nostr note sending', () => {
+    it('Should connect to the provided relay', () => {
+        const spy = vi.spyOn(nostr, 'connectToRelay')
+        const note = { content: "hello nostr" };
+        nostr.sendNote(note, "relay");
+        expect(spy).toHaveBeenCalled();
+        expect(spy).toHaveBeenCalledWith("relay");
+    });
+    it('should call nostr-tools relayInit', async () => {
+        const relayConnection = await nostr.connectToRelay("relay");
+        expect(relayInit).toBeCalled();
+    });
+    it('should open a websocket connection to the relay', async () => {
+        const relayConnection = await nostr.connectToRelay("relay");
+        expect(relayConnection.connect).toBeCalled();
+    });
+    it('should publish the note to the relay', async () => {
+        const note = { content: "hello nostr" };
+        nostr.sendNote(note, "relay");
+        expect(publishSpy).toBeCalled();
+        expect(publishSpy).toHaveBeenCalledWith(note);
+    });
+    it('should close the websocket connection to the relay', async () => {
+        const note = { content: "hello nostr" };
+        nostr.sendNote(note, "relay");
+        expect(closeSpy).toBeCalled();
+    });
 });
