@@ -4,7 +4,7 @@ import { Note } from "./entity/note";
 import { ScheduledNote } from './entity/schedulednote';
 
 
-export class MockNostr implements NostrInterface {
+export class MockNostr extends NostrInterface {
     validateNote(note: Note): boolean {
         if (note.content === 'invalid') {
             return false;

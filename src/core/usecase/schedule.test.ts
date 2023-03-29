@@ -6,7 +6,7 @@ import { MockNostr } from '../mocks';
 
 
 const request = {
-    nostr: new MockNostr(),
+    nostr: new MockNostr(['relay']),
     storage: new MockStorage([])
 };
 

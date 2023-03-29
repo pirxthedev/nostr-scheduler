@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 
-const nostr = new MockNostr()
+const nostr = new MockNostr(['relay'])
 const storage = new MockStorage([
     {
         note: {

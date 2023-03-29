@@ -4,7 +4,7 @@ import { MockNostr } from '../mocks';
 import { MockStorage } from '../mocks';
 
 
-const nostr = new MockNostr();
+const nostr = new MockNostr(['relay']);
 
 const validScheduledNote = {
     note: {
